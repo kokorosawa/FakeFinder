@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D87C4C8A2DF383B10072BE54 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D87C4C892DF383B10072BE54 /* AVFoundation.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		D8CB85882DD1E9FA00484950 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,14 +28,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D87C4C892DF383B10072BE54 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D8CB857A2DD1E9F700484950 /* FakeFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FakeFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8CB85872DD1E9FA00484950 /* FakeFinderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FakeFinderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8CB85912DD1E9FA00484950 /* FakeFinderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FakeFinderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D87C4C8C2DF383D30072BE54 /* Exceptions for "FakeFinder" folder in "FakeFinder" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D8CB85792DD1E9F700484950 /* FakeFinder */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D8CB857C2DD1E9F700484950 /* FakeFinder */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D87C4C8C2DF383D30072BE54 /* Exceptions for "FakeFinder" folder in "FakeFinder" target */,
+			);
 			path = FakeFinder;
 			sourceTree = "<group>";
 		};
@@ -52,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D87C4C8A2DF383B10072BE54 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +91,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D87C4C882DF383B10072BE54 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D87C4C892DF383B10072BE54 /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D8CB85712DD1E9F700484950 = {
 			isa = PBXGroup;
 			children = (
 				D8CB857C2DD1E9F700484950 /* FakeFinder */,
 				D8CB858A2DD1E9FA00484950 /* FakeFinderTests */,
 				D8CB85942DD1E9FA00484950 /* FakeFinderUITests */,
+				D87C4C882DF383B10072BE54 /* Frameworks */,
 				D8CB857B2DD1E9F700484950 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -400,6 +428,7 @@
 				DEVELOPMENT_TEAM = G52D5M46AB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FakeFinder/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -428,6 +457,7 @@
 				DEVELOPMENT_TEAM = G52D5M46AB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FakeFinder/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
