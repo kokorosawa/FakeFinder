@@ -43,10 +43,11 @@ struct RecordingView: View {
             }
             .frame(maxWidth: .infinity)
             .padding()
-            .background(Color.blue)
+            .background(viewModel.showRecord ? Color.blue : Color.gray)
             .foregroundColor(.white)
             .cornerRadius(10)
             .padding(.top)
+            .disabled(!viewModel.showRecord)
             
             Button("Upload Audio") {
                 viewModel.uploadAudio()

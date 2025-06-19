@@ -7,7 +7,7 @@ class LoadingViewModel: ObservableObject {
     func startAnalysis() {
         // 模擬分析過程
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.analysisResult = AnalysisResult(percentage: 84, isDeepfake: true)
+            self.analysisResult = AnalysisResult(percentage: 0, isDeepfake: false)
             self.showingResultView = true
         }
     }
