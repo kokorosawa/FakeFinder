@@ -50,6 +50,7 @@ class RecordingViewModel: ObservableObject {
         if isRecording {
             setupRecorder()
             startRecording()
+            self.pause()
         } else {
             stopRecording()
             showRecord = true
@@ -133,6 +134,12 @@ class RecordingViewModel: ObservableObject {
         } catch {
             print("❌ 播放器初始化失敗：\(error.localizedDescription)")
         }
+
+        DispatchQueue.main.async {
+            self.showRecord = true
+            self.playbackProgress = 0.0
+            self.isPlaying = false
+        }
     }
 
     func playPause() {
@@ -146,6 +153,37 @@ class RecordingViewModel: ObservableObject {
             player.play()
             isPlaying = true
             startProgressTimer()
+        }
+    }
+
+    func seekToProgress() {
+        guard let player = audioPlayer else { return }
+        
+        let newTime = playbackProgress * player.duration
+        player.currentTime = newTime
+        
+        if isPlaying {
+            player.play()
+        }
+    }
+
+    func play() {
+        guard let player = audioPlayer else { return }
+        
+        if !player.isPlaying {
+            player.play()
+            isPlaying = true
+            startProgressTimer()
+        }
+    }
+
+    func pause() {
+        guard let player = audioPlayer else { return }
+        
+        if player.isPlaying {
+            player.pause()
+            isPlaying = false
+            stopProgressTimer()
         }
     }
 
@@ -181,22 +219,8 @@ class RecordingViewModel: ObservableObject {
         }
     }
 
-    func pausePlayback() {
-        guard let player = audioPlayer, player.isPlaying else {
-            print("⚠️ 無法暫停，播放器未在播放狀態")
-            return
-        }
-        player.pause()
-        isPlaying = false
-        print("⏸️ 暫停播放")
-    }
-    
     func startRecording() {
         audioRecorder?.record()
-    }
-
-    func pauseRecording() {
-        audioRecorder?.pause()
     }
 
     func stopRecording() {

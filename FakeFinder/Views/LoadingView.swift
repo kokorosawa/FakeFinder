@@ -2,6 +2,7 @@ import SwiftUI
 
 struct LoadingView: View {
     @StateObject private var viewModel = LoadingViewModel()
+    @Binding var path: NavigationPath
     
     var body: some View {
         VStack {
@@ -18,7 +19,7 @@ struct LoadingView: View {
         }
         .navigationBarBackButtonHidden(true)
         .navigationDestination(isPresented: $viewModel.showingResultView) {
-            ResultView(analysisResult: viewModel.analysisResult)
+            ResultView(path:$path,analysisResult: viewModel.analysisResult)
         }
         .onAppear {
             viewModel.startAnalysis()

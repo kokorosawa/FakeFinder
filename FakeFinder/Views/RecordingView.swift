@@ -3,6 +3,7 @@ import UniformTypeIdentifiers
 
 struct RecordingView: View {
     @StateObject private var viewModel = RecordingViewModel()
+    @Binding var path: NavigationPath
     
     var body: some View {
         VStack {
@@ -31,7 +32,17 @@ struct RecordingView: View {
                             .foregroundColor(.blue)
                     }
                     
-                    Slider(value: $viewModel.playbackProgress, in: 0...1)
+                    Slider(value: $viewModel.playbackProgress, in: 0...1, onEditingChanged: { isEditing in
+                        if isEditing {
+                            print("開始拖曳 Slider")
+                            viewModel.pause()
+                        } else {
+                            print("結束拖曳 Slider，最終值為 \(viewModel.playbackProgress,)")
+                            viewModel.seekToProgress()
+                            viewModel.play()
+                        }
+                        
+                    })
                         .accentColor(.blue)
                     
                 }
@@ -39,7 +50,7 @@ struct RecordingView: View {
             } 
             
             Button("Send") {
-                viewModel.sendRecording()
+                path.append("loading")
             }
             .frame(maxWidth: .infinity)
             .padding()
@@ -97,14 +108,10 @@ struct RecordingView: View {
             .padding()
         }
         .padding()
-        .navigationTitle("Recording")
+        .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(isPresented: $viewModel.showingLoadingView) {
-            LoadingView()
+            LoadingView(path:$path)
         }
     }
-}
-
-#Preview() {
-    RecordingView();
 }

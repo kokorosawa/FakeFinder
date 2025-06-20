@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ResultView: View {
     @Environment(\.dismiss) private var dismiss
+    @Binding var path: NavigationPath
     let analysisResult: AnalysisResult?
     
     var body: some View {
@@ -22,8 +23,8 @@ struct ResultView: View {
                 .multilineTextAlignment(.center)
                 .foregroundColor(.secondary)
             
-            Button("Play Original") {
-                // TODO: 實作播放原始音檔
+            Button("Back to detection Page") {
+                path.removeLast(1)
             }
             .padding(.top)
             
