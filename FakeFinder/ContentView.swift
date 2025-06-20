@@ -27,6 +27,10 @@ struct ContentView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
+                
+                Button("View History") {
+                    path.append("history")
+                }
             }
             .padding()
             .navigationDestination(for: String.self) { value in
@@ -39,6 +43,8 @@ struct ContentView: View {
                     LoadingView(path:$path)
                         .navigationTitle("")
                         .navigationBarTitleDisplayMode(.inline)
+                case "history":
+                    HistoryView(path: $path).toolbarBackground(.hidden, for: .navigationBar)
                 
                 default:
                     Text("Unknown destination")
@@ -46,6 +52,8 @@ struct ContentView: View {
                 
             }
         }
+        .background(Color.black)
+        .preferredColorScheme(.dark)
     }
 }
 

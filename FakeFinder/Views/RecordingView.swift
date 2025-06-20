@@ -101,10 +101,6 @@ struct RecordingView: View {
                     print("⚠️ 無法上傳音頻文件: \(error.localizedDescription)")
                 }
             }
-
-            Button("View History") {
-                viewModel.viewHistory()
-            }
             .padding()
         }
         .padding()
