@@ -2,8 +2,8 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct RecordingView: View {
-    @StateObject private var viewModel = RecordingViewModel()
     @Binding var path: NavigationPath
+    @StateObject var viewModel: RecordingViewModel
     
     var body: some View {
         VStack {
@@ -51,6 +51,7 @@ struct RecordingView: View {
             
             Button("Send") {
                 path.append("loading")
+                viewModel.savelog()
             }
             .frame(maxWidth: .infinity)
             .padding()
@@ -100,10 +101,6 @@ struct RecordingView: View {
                 } catch {
                     print("⚠️ 無法上傳音頻文件: \(error.localizedDescription)")
                 }
-            }
-
-            Button("View History") {
-                viewModel.viewHistory()
             }
             .padding()
         }

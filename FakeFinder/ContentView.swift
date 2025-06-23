@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var viewModel = MainViewModel()
     @State private var path = NavigationPath()
+    @Environment(\.managedObjectContext) private var context
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -27,18 +28,25 @@ struct ContentView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
+                
+                Button("View History") {
+                    path.append("history")
+                }
             }
             .padding()
             .navigationDestination(for: String.self) { value in
                 switch value {
                 case "record":
-                    RecordingView(path: $path)
+                    RecordingView(path: $path, viewModel: RecordingViewModel(context: context))
                         .navigationTitle("")
                         .navigationBarTitleDisplayMode(.inline)
                 case "loading":
                     LoadingView(path:$path)
                         .navigationTitle("")
                         .navigationBarTitleDisplayMode(.inline)
+                case "history":
+                    HistoryView(path: $path, viewModel: HistoryViewModel(context: context))
+                        .toolbarBackground(.hidden, for: .navigationBar)
                 
                 default:
                     Text("Unknown destination")
@@ -46,9 +54,12 @@ struct ContentView: View {
                 
             }
         }
+        .background(Color.black)
+        .preferredColorScheme(.dark)
     }
 }
 
 #Preview {
     ContentView()
+        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }

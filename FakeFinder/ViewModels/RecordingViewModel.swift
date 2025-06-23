@@ -1,5 +1,6 @@
 import AVFoundation
 import SwiftUI
+import CoreData
 #if canImport(UIKit)
 import UIKit
 #endif
@@ -15,6 +16,12 @@ class RecordingViewModel: ObservableObject {
     var audioRecorder: AVAudioRecorder?
     var audioPlayer: AVAudioPlayer?
     private var timer: Timer?
+    private let context: NSManagedObjectContext
+
+    // 通過初始化器接收 context，不使用預設值
+    init(context: NSManagedObjectContext) {
+        self.context = context
+    }
 
     func requestMicrophonePermission() {
         AVAudioApplication.requestRecordPermission { granted in
@@ -237,6 +244,22 @@ class RecordingViewModel: ObservableObject {
 
     func viewHistory() {
         // TODO: 實作查看歷史記錄功能
+    }
+    
+    func savelog(){
+        let log = SubmitLog(context: context)
+        log.creatAt = Date()
+        log.result = true
+        log.score = 10
+        log.rate = 100
+        log.wavId = "123456"
+        
+        do {
+            try context.save()
+            print("儲存成功")
+        } catch {
+            print("儲存失敗：\(error)")
+        }
     }
     
     deinit {

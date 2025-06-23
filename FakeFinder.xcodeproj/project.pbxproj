@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D87C4C8A2DF383B10072BE54 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D87C4C892DF383B10072BE54 /* AVFoundation.framework */; };
+		D8CD14F52E06D86400B16FEF /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D8CD14F32E06D86400B16FEF /* Model.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +33,7 @@
 		D8CB857A2DD1E9F700484950 /* FakeFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FakeFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8CB85872DD1E9FA00484950 /* FakeFinderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FakeFinderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8CB85912DD1E9FA00484950 /* FakeFinderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FakeFinderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8CD14F42E06D86400B16FEF /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -102,6 +104,7 @@
 		D8CB85712DD1E9F700484950 = {
 			isa = PBXGroup;
 			children = (
+				D8CD14F32E06D86400B16FEF /* Model.xcdatamodeld */,
 				D8CB857C2DD1E9F700484950 /* FakeFinder */,
 				D8CB858A2DD1E9FA00484950 /* FakeFinderTests */,
 				D8CB85942DD1E9FA00484950 /* FakeFinderUITests */,
@@ -264,6 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8CD14F52E06D86400B16FEF /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,6 +592,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D8CD14F32E06D86400B16FEF /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D8CD14F42E06D86400B16FEF /* Model.xcdatamodel */,
+			);
+			currentVersion = D8CD14F42E06D86400B16FEF /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D8CB85722DD1E9F700484950 /* Project object */;
 }

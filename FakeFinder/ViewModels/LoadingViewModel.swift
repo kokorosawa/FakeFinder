@@ -11,4 +11,8 @@ class LoadingViewModel: ObservableObject {
             self.showingResultView = true
         }
     }
+
+    func logAnalysisResult() {
+       
+    }
 }
