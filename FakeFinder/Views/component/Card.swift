@@ -1,10 +1,11 @@
 import SwiftUI
 
 struct CardView: View {
-    var time: String = "2023-10-01 12:00"
+    var time: Date = Date()
     var wavId: String = "1234567890"
     var score: Int = 0
     var result: Bool = true
+    
     
     var body: some View {
         VStack(spacing: 12) {
@@ -55,7 +56,7 @@ struct CardView: View {
                     .foregroundColor(.cyan)
                     .font(.system(size: 12))
                 
-                Text(time)
+                Text(time.formatted())
                     .font(.system(size: 12, weight: .medium, design: .monospaced))
                     .foregroundColor(.gray)
                 
@@ -104,6 +105,6 @@ struct CardView: View {
     }
 }
 
-#Preview {
-    CardView(time: "2023-10-01 12:00", wavId: "1234567890", score: 87, result: true)
-}
+//#Preview {
+//    CardView(time: "2023-10-01 12:00", wavId: "1234567890", score: 87, result: true)
+//}

@@ -1,24 +1,16 @@
 import SwiftUI
 
 struct HistoryView: View {
-    // @StateObject private var viewModel = LoadingViewModel()
     @Binding var path: NavigationPath
+    @ObservedObject var viewModel: HistoryViewModel
     
     var body: some View {
         ScrollView{
             VStack {
-                CardView()
-                CardView()
-                CardView(result: false)
-                CardView()
-                CardView()
-                CardView()
-                CardView(result: false)
+                ForEach(viewModel.logs, id: \.self) { log in
+                    CardView(time: log.creatAt!, wavId: log.wavId ?? "NULL", score: Int(log.rate), result: log.result)
+                }
             }
         }
     }
-}
-
-#Preview {
-    HistoryView(path: .constant(NavigationPath()))
 }

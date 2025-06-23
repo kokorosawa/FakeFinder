@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var viewModel = MainViewModel()
     @State private var path = NavigationPath()
+    @Environment(\.managedObjectContext) private var context
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -36,7 +37,7 @@ struct ContentView: View {
             .navigationDestination(for: String.self) { value in
                 switch value {
                 case "record":
-                    RecordingView(path: $path)
+                    RecordingView(path: $path, viewModel: RecordingViewModel(context: context))
                         .navigationTitle("")
                         .navigationBarTitleDisplayMode(.inline)
                 case "loading":
@@ -44,7 +45,8 @@ struct ContentView: View {
                         .navigationTitle("")
                         .navigationBarTitleDisplayMode(.inline)
                 case "history":
-                    HistoryView(path: $path).toolbarBackground(.hidden, for: .navigationBar)
+                    HistoryView(path: $path, viewModel: HistoryViewModel(context: context))
+                        .toolbarBackground(.hidden, for: .navigationBar)
                 
                 default:
                     Text("Unknown destination")
@@ -59,4 +61,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }
