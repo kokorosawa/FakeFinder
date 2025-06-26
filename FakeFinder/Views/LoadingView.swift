@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct LoadingView: View {
-    @StateObject private var viewModel = LoadingViewModel()
     @Binding var path: NavigationPath
+    @StateObject var viewModel: LoadingViewModel
     
     var body: some View {
         VStack {

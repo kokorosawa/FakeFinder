@@ -14,7 +14,7 @@ class HistoryViewModel : ObservableObject {
     func fetchLogs() {
         let request: NSFetchRequest<SubmitLog> = SubmitLog.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(keyPath: \SubmitLog.creatAt, ascending: false)]
-
+        print("🔍 正在取得 SubmitLog... \(logs)")
         do {
             logs = try context.fetch(request)
         } catch {
