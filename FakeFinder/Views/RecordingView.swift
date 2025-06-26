@@ -1,4 +1,5 @@
 import SwiftUI
+import CoreData
 import UniformTypeIdentifiers
 
 struct RecordingView: View {
@@ -48,18 +49,14 @@ struct RecordingView: View {
                 }
                 .padding()
             } 
-            
-            Button("Send") {
-                path.append("loading")
-                viewModel.submit()
-            }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(viewModel.showRecord ? Color.blue : Color.gray)
-            .foregroundColor(.white)
-            .cornerRadius(10)
-            .padding(.top)
-            .disabled(!viewModel.showRecord)
+
+            TextField("Enter your input", text: $viewModel.inputText)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+
+            Button("Generate") {
+                viewModel.generateAudio()
+            }.disabled(!viewModel.generateFinished)
             
             Button("Upload Audio") {
                 viewModel.uploadAudio()
@@ -102,10 +99,25 @@ struct RecordingView: View {
                     print("⚠️ 無法上傳音頻文件: \(error.localizedDescription)")
                 }
             }
+
+            Button("Send") {
+                path.append("loading")
+                viewModel.submit()
+            }
+            .frame(maxWidth: .infinity)
             .padding()
+            .background(viewModel.showRecord ? Color.blue : Color.gray)
+            .foregroundColor(.white)
+            .cornerRadius(10)
+            .padding(.top)
+            .disabled(!viewModel.showRecord)
         }
         .padding()
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
     }
+}
+
+#Preview{
+    RecordingView(path: .constant(NavigationPath()), viewModel: RecordingViewModel(context: PersistenceController.shared.container.viewContext))
 }

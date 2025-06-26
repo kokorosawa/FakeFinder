@@ -43,6 +43,7 @@ class LoadingViewModel: ObservableObject {
         
         let decodedPath = wavPath.removingPercentEncoding ?? wavPath
         self.wavname = decodedPath.components(separatedBy: "/").last ?? "unknown.wav"
+        print("📂 正在解碼的路徑: \(self.wavname)")
         print("📂 解碼後的路徑: \(decodedPath)")
         
         guard !decodedPath.isEmpty,
@@ -63,7 +64,7 @@ class LoadingViewModel: ObservableObject {
         
         // 第一部分：音頻文件
         body.append("--\(boundary)\r\n".data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"audio_file\"; filename=\"audio.m4a\"\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"audio_file\"; filename=\"\(self.wavname)\"\r\n".data(using: .utf8)!)
         body.append("Content-Type: audio/m4a\r\n\r\n".data(using: .utf8)!)
         body.append(audioData)
         body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
