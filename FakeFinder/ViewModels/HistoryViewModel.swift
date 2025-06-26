@@ -13,7 +13,7 @@ class HistoryViewModel : ObservableObject {
 
     func fetchLogs() {
         let request: NSFetchRequest<SubmitLog> = SubmitLog.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \SubmitLog.creatAt, ascending: false)]
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \SubmitLog.createdAt, ascending: false)]
         print("🔍 正在取得 SubmitLog... \(logs)")
         do {
             logs = try context.fetch(request)
@@ -21,7 +21,7 @@ class HistoryViewModel : ObservableObject {
             print("❌ 取得 SubmitLog 失敗：\(error.localizedDescription)")
         }
         for log in logs {
-            print("Log: \(log.creatAt ?? Date()), Result: \(log.result), Score: \(log.score), Rate: \(log.rate), WAV ID: \(log.wavId ?? "")")
+            print("Log: \(log.createdAt ?? Date()), Result: \(log.result), Score: \(log.score), Rate: \(log.rate), WAV ID: \(log.wavId ?? "")")
         }
     }
 

@@ -21,11 +21,11 @@ class LoadingViewModel: ObservableObject {
     
     func getSubmitFile() -> String {
         let request: NSFetchRequest<Submit> = Submit.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \Submit.creatAt, ascending: false)]
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Submit.createdAt, ascending: false)]
         let fetchResult = try? context.fetch(request)
         let wavPath = fetchResult?.first?.wavPath ?? ""
         for submit in fetchResult ?? [] {
-            print(submit.creatAt)
+            print(submit.createdAt)
             print(submit.id)
             print(submit.wavPath)
         }
@@ -41,11 +41,9 @@ class LoadingViewModel: ObservableObject {
     func classify() {
         let wavPath = getSubmitFile()
         
-
         let decodedPath = wavPath.removingPercentEncoding ?? wavPath
         self.wavname = decodedPath.components(separatedBy: "/").last ?? "unknown.wav"
         print("📂 解碼後的路徑: \(decodedPath)")
-
         
         guard !decodedPath.isEmpty,
               let url = URL(string: "https://classifier.kokoro44.com/classify"),
@@ -56,11 +54,14 @@ class LoadingViewModel: ObservableObject {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        request.timeoutInterval = 30.0
         
         let boundary = UUID().uuidString
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         var body = Data()
+        
+        // 第一部分：音頻文件
         body.append("--\(boundary)\r\n".data(using: .utf8)!)
         body.append("Content-Disposition: form-data; name=\"audio_file\"; filename=\"audio.m4a\"\r\n".data(using: .utf8)!)
         body.append("Content-Type: audio/m4a\r\n\r\n".data(using: .utf8)!)
@@ -71,6 +72,9 @@ class LoadingViewModel: ObservableObject {
         body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!) 
         
         request.httpBody = body
+        
+        print("🌐 發送請求到: \(url.absoluteString)")
+        print("📦 請求大小: \(body.count) bytes")
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -118,7 +122,7 @@ class LoadingViewModel: ObservableObject {
         }
         
         let submitLog = SubmitLog(context: context)
-        submitLog.creatAt = Date()
+        submitLog.createdAt = Date()
         submitLog.result = result.isDeepfake ? false : true
         submitLog.score = Int16(result.percentage)
         submitLog.rate = result.score

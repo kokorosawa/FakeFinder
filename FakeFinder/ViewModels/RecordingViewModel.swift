@@ -248,7 +248,7 @@ class RecordingViewModel: ObservableObject {
     
     func submit() {
         let log = Submit(context: context)
-        log.creatAt = Date()
+        log.createdAt = Date()
         log.id = UUID()
         log.wavPath = audioPlayer?.url?.path()
         do {
