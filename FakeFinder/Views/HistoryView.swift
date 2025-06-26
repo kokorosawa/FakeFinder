@@ -8,7 +8,7 @@ struct HistoryView: View {
         ScrollView{
             VStack {
                 ForEach(viewModel.logs, id: \.self) { log in
-                    CardView(time: log.creatAt!, wavId: log.wavId ?? "NULL", score: Int(log.rate), result: log.result)
+                    CardView(time: log.createdAt ?? Date(), wavId: log.wavId ?? "NULL", score: Int(log.score), result: log.result)
                 }
             }
         }

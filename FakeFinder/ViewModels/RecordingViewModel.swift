@@ -246,14 +246,11 @@ class RecordingViewModel: ObservableObject {
         // TODO: 實作查看歷史記錄功能
     }
     
-    func savelog(){
-        let log = SubmitLog(context: context)
-        log.creatAt = Date()
-        log.result = true
-        log.score = 10
-        log.rate = 100
-        log.wavId = "123456"
-        
+    func submit() {
+        let log = Submit(context: context)
+        log.createdAt = Date()
+        log.id = UUID()
+        log.wavPath = audioPlayer?.url?.path()
         do {
             try context.save()
             print("儲存成功")

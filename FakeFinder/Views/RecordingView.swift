@@ -51,7 +51,7 @@ struct RecordingView: View {
             
             Button("Send") {
                 path.append("loading")
-                viewModel.savelog()
+                viewModel.submit()
             }
             .frame(maxWidth: .infinity)
             .padding()
@@ -107,8 +107,5 @@ struct RecordingView: View {
         .padding()
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination(isPresented: $viewModel.showingLoadingView) {
-            LoadingView(path:$path)
-        }
     }
 }

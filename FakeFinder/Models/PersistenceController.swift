@@ -18,7 +18,7 @@ struct PersistenceController {
         // 創建一些測試資料
         for i in 0..<5 {
             let log = SubmitLog(context: context)
-            log.creatAt = Date().addingTimeInterval(TimeInterval(-i * 3600))
+            log.createdAt = Date().addingTimeInterval(TimeInterval(-i * 3600))
             log.result = i % 2 == 0
             log.score = Int16.random(in: 0...100)
             log.rate = Double.random(in: 0...1)
