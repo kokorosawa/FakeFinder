@@ -196,6 +196,7 @@ struct ContentView: View {
                 case "record":
                     RecordingView(path: $path, viewModel: RecordingViewModel(context: context))
                         .navigationTitle("")
+                        .toolbarBackground(.hidden, for: .navigationBar)
                         .navigationBarTitleDisplayMode(.inline)
                 case "loading":
                     LoadingView(path:$path, viewModel: LoadingViewModel(context: context))
