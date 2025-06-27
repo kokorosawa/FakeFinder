@@ -12,6 +12,8 @@ class RecordingViewModel: ObservableObject {
     @Published var isPlaying: Bool = false
     @Published var playbackProgress: Double = 0.0
     @Published var isImporterShown = false
+    @Published var inputText: String = ""
+    @Published var generateFinished: Bool = true
 
     var audioRecorder: AVAudioRecorder?
     var audioPlayer: AVAudioPlayer?
@@ -241,10 +243,6 @@ class RecordingViewModel: ObservableObject {
     func uploadAudio() {
         isImporterShown = true
     }
-
-    func viewHistory() {
-        // TODO: 實作查看歷史記錄功能
-    }
     
     func submit() {
         let log = Submit(context: context)
@@ -257,6 +255,113 @@ class RecordingViewModel: ObservableObject {
         } catch {
             print("儲存失敗：\(error)")
         }
+    }
+
+    func generateAudio() {
+        print("生成音頻：\(inputText)")
+        audioPlayer = nil
+        playbackProgress = 0.0
+        isPlaying = false
+
+        generateFinished = false
+            
+        guard !inputText.isEmpty else {
+            print("輸入文字為空")
+            generateFinished = true
+            return
+        }
+        
+        // 讀取參考音頻文件
+        var referencesArray: String = ""
+        var referencesScript: String = "目の前に立ちはだかる、高い高い壁"
+        
+        if let bundlePath = Bundle.main.path(forResource: "hinata", ofType:"wav") {
+            let referenceURL = URL(fileURLWithPath: bundlePath)
+            print(referenceURL)
+            
+            do {
+                let audioData = try Data(contentsOf: referenceURL)
+                let base64String = audioData.base64EncodedString()
+                referencesArray = base64String
+                print("✅ 音頻數據類型: \(type(of: audioData))")
+                print("✅ Base64字串類型: \(type(of: base64String))")
+                print("✅ 音頻數據大小: \(audioData.count) bytes")
+                print("✅ Base64字串長度: \(base64String.count) 個字元")
+            } catch {
+                print("❌ 無法讀取參考音頻文件: \(error)")
+            }
+        } else {
+            print("⚠️ 找不到參考音頻文件: FakeFinder/RefWav/8.wav")
+        }
+        
+        let url = URL(string: "https://tts.kokoro44.com/v1/tts")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let reference = [["audio": referencesArray, "text":referencesScript]] 
+        
+        let requestBody: [String: Any] = [
+            "text": inputText,
+            "chunk_length": 200,
+            "format": "wav",
+            "references": reference, // 使用讀取的參考音頻
+            "reference_id": NSNull(),
+            "seed": NSNull(),
+            "use_memory_cache": "off",
+            "normalize": true,
+            "streaming": false,
+            "max_new_tokens": 1024,
+            "top_p": 0.8,
+            "repetition_penalty": 1.1,
+            "temperature": 0.8
+        ]
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
+        } catch {
+            print("JSON 編碼失敗：\(error)")
+            generateFinished = true
+            return
+        }
+        
+        print("🌐 發送 TTS 請求，參考音頻數量: \(referencesArray.count)")
+        
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            DispatchQueue.main.async {
+                self?.generateFinished = true
+            }
+            
+            if let error = error {
+                print("❌ API 請求失敗：\(error)")
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                print("📊 HTTP 狀態碼: \(httpResponse.statusCode)")
+            }
+            
+            guard let data = data else {
+                print("❌ 未收到音頻數據")
+                return
+            }
+            print(data)
+            print("✅ 收到生成的音頻數據，大小: \(data.count) bytes")
+            
+            // Save audio data to temporary file
+            let fileName = "generated_audio.wav"
+            let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(fileName)
+            
+            do {
+                try data.write(to: fileURL)
+                print("✅ 音頻檔案儲存成功: \(fileURL.path)")
+                
+                DispatchQueue.main.async {
+                    self?.uploadAudio(url: fileURL)
+                }
+            } catch {
+                print("❌ 音頻檔案儲存失敗：\(error)")
+            }
+        }.resume()
     }
     
     deinit {
